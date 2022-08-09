@@ -22,6 +22,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
       child: Row(
         children: [
           AppBarButton(buttonName: "Home", buttonFunction: () {}, buttonWidth: appBarHeight, buttonHeight: appBarHeight),
+          const SizedBox(width: 15),
           AppBarButton(buttonName: "Histórico", buttonFunction: () {}, buttonWidth: appBarHeight, buttonHeight: appBarHeight),
           const Spacer(),
           AppBarButton(buttonName: "Sobre", buttonFunction: () {}, buttonWidth: appBarHeight, buttonHeight: appBarHeight),

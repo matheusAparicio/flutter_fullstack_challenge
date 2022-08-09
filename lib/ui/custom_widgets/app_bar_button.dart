@@ -19,25 +19,36 @@ class AppBarButton extends StatefulWidget {
 }
 
 class _AppBarButtonState extends State<AppBarButton> {
-  bool currentlyOnHover = true;
+  bool currentlyOnHover = false;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onHover: (pointer) {},
+      onEnter: (pointer) {
+        setState(() {
+          currentlyOnHover = true;
+        });
+      },
+      onExit: (pointer) {
+        setState(() {
+          currentlyOnHover = false;
+        });
+      },
       child: GestureDetector(
         onTap: widget.buttonFunction,
         child: Container(
           width: widget.buttonWidth,
           height: widget.buttonHeight,
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: AppColors().blue,
-                width: 3,
-              ),
-            ),
+            border: currentlyOnHover
+                ? Border(
+                    bottom: BorderSide(
+                      color: AppColors().blue,
+                      width: 3,
+                    ),
+                  )
+                : const Border(),
           ),
           alignment: Alignment.center,
           child: Text(
