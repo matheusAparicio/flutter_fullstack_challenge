@@ -7,12 +7,15 @@ class AppBarButton extends StatefulWidget {
   final Function() buttonFunction;
   final double buttonWidth;
   final double buttonHeight;
-  const AppBarButton(
-      {super.key,
-      required this.buttonName,
-      required this.buttonFunction,
-      required this.buttonWidth,
-      required this.buttonHeight});
+  final bool clickable;
+  const AppBarButton({
+    super.key,
+    required this.buttonName,
+    required this.buttonFunction,
+    required this.buttonWidth,
+    required this.buttonHeight,
+    this.clickable = true,
+  });
 
   @override
   State<AppBarButton> createState() => _AppBarButtonState();
@@ -24,16 +27,22 @@ class _AppBarButtonState extends State<AppBarButton> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
+      cursor: widget.clickable
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       onEnter: (pointer) {
-        setState(() {
-          currentlyOnHover = true;
-        });
+        if (widget.clickable) {
+          setState(() {
+            currentlyOnHover = true;
+          });
+        }
       },
       onExit: (pointer) {
-        setState(() {
-          currentlyOnHover = false;
-        });
+        if (widget.clickable) {
+          setState(() {
+            currentlyOnHover = false;
+          });
+        }
       },
       child: GestureDetector(
         onTap: widget.buttonFunction,
@@ -53,7 +62,10 @@ class _AppBarButtonState extends State<AppBarButton> {
           alignment: Alignment.center,
           child: Text(
             widget.buttonName,
-            style: GoogleFonts.roboto(color: AppColors().softWhite),
+            style: GoogleFonts.roboto(
+              color:
+                  widget.clickable ? AppColors().softWhite : AppColors().grey,
+            ),
           ),
         ),
       ),
