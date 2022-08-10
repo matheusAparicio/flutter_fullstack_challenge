@@ -45,13 +45,13 @@ mixin _$HomeState on _HomeStateBase, Store {
       Atom(name: '_HomeStateBase.allResults', context: context);
 
   @override
-  List<List<int>> get allResults {
+  dynamic get allResults {
     _$allResultsAtom.reportRead();
     return super.allResults;
   }
 
   @override
-  set allResults(List<List<int>> value) {
+  set allResults(dynamic value) {
     _$allResultsAtom.reportWrite(value, super.allResults, () {
       super.allResults = value;
     });

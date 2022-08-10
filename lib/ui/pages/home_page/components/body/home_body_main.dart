@@ -67,12 +67,13 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (int.tryParse(numberInputController.text) != null) {
                           final beforeCalculation = DateTime.now().second.abs();
                           homeState.currentResult = homeState.calculateNumber(
                               number: int.parse(numberInputController.text));
-                          homeState.currentResultTime = DateTime.now().second - beforeCalculation;
+                          homeState.currentResultTime =
+                              DateTime.now().second - beforeCalculation;
                         } else {
                           homeState.currentResult = [];
                         }
@@ -132,10 +133,8 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                             return Center(
                               child: Container(
                                 margin: const EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  "${homeState.currentResult[index]}",
-                                  style: GoogleFonts.roboto(fontSize: 24)
-                                ),
+                                child: Text("${homeState.currentResult[index]}",
+                                    style: GoogleFonts.roboto(fontSize: 24)),
                               ),
                             );
                           }),

@@ -7,7 +7,6 @@ class HomeState = _HomeStateBase with _$HomeState;
 HomeState homeState = HomeState();
 
 abstract class _HomeStateBase with Store {
-
   @observable
   List<int> currentResult = [];
 
@@ -15,17 +14,17 @@ abstract class _HomeStateBase with Store {
   int currentResultTime = 0;
 
   @observable
-  List<List<int>> allResults = [];
+  dynamic allResults = [];
 
   @action
   List<int> calculateNumber({required int number}) {
     List<int> result = [];
-    for(int i = 2; i < number; i++) {
-      if (i.divisibleNumbersCount() == (i+1).divisibleNumbersCount()) {
+    for (int i = 2; i < number; i++) {
+      if (i.divisibleNumbersCount() == (i + 1).divisibleNumbersCount()) {
         result.add(i);
       }
     }
     return result;
   }
-
+  
 }
