@@ -2,6 +2,7 @@
 
 # Projeto em Flutter para implementar conceitos front e back end.
 Nele, é possível inserir um número k e obter todos os números n inteiros positivos menores que k para os quais n e n + 1 tenham a mesma quantidade de divisores.
+
 É então mostrado a quantidade de n's e quais foram, bem como os segundos gastos no cálculo.
 
 Posteriormente serão implementados um sistema de persistência dos números submetidos e uma página "sobre".
