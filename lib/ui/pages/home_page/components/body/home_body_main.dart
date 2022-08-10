@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fullstack_challenge/state/home_state.dart';
 import 'package:flutter_fullstack_challenge/utilities/app_colors.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeBodyMain extends StatefulWidget {
@@ -17,6 +19,8 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
   late double contentHeaderWidthMultiplier =
       contentWidthMultiplier - contentButtonWidthMultiplier;
 
+  TextEditingController numberInputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,8 +36,7 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
         child: Column(
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width *
-                  contentWidthMultiplier,
+              width: MediaQuery.of(context).size.width * contentWidthMultiplier,
               height: MediaQuery.of(context).size.height *
                   (contentHeaderHeightMultiplier),
               child: Row(
@@ -41,7 +44,8 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width *
-                  contentHeaderWidthMultiplier * .95,
+                        contentHeaderWidthMultiplier *
+                        .95,
                     height: MediaQuery.of(context).size.height *
                         (contentHeaderHeightMultiplier),
                     padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -50,6 +54,7 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: TextFormField(
+                      controller: numberInputController,
                       decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "Digite o número a ser verificado."),
@@ -62,7 +67,10 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        homeState.currentResult = homeState.calculateNumber(
+                            number: int.parse(numberInputController.text));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width *
                             contentButtonWidthMultiplier,
@@ -85,14 +93,27 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                 ],
               ),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * contentWidthMultiplier,
-              height: MediaQuery.of(context).size.height *
-                  (contentHeightMultiplier - contentHeaderHeightMultiplier),
-              decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide()),
-              ),
-            ),
+            Observer(builder: (_) {
+              return Container(
+                width:
+                    MediaQuery.of(context).size.width * contentWidthMultiplier,
+                height: MediaQuery.of(context).size.height *
+                    (contentHeightMultiplier - contentHeaderHeightMultiplier),
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide()),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  homeState.currentResult.isNotEmpty
+                      ? "O resultado para o número '${numberInputController.text}' é ${homeState.currentResult.length}."
+                      : "Insira um número válido.",
+                  style: GoogleFonts.roboto(
+                    color: AppColors().voidColor,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }),
           ],
         ),
       ),
