@@ -68,8 +68,14 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                        homeState.currentResult = homeState.calculateNumber(
-                            number: int.parse(numberInputController.text));
+                        if (int.tryParse(numberInputController.text) != null) {
+                          final beforeCalculation = DateTime.now().second.abs();
+                          homeState.currentResult = homeState.calculateNumber(
+                              number: int.parse(numberInputController.text));
+                          homeState.currentResultTime = DateTime.now().second - beforeCalculation;
+                        } else {
+                          homeState.currentResult = [];
+                        }
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width *
@@ -103,14 +109,38 @@ class _HomeBodyMainState extends State<HomeBodyMain> {
                   border: Border(bottom: BorderSide()),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  homeState.currentResult.isNotEmpty
-                      ? "O resultado para o número '${numberInputController.text}' é ${homeState.currentResult.length}."
-                      : "Insira um número válido.",
-                  style: GoogleFonts.roboto(
-                    color: AppColors().voidColor,
-                  ),
-                  textAlign: TextAlign.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      homeState.currentResult.isNotEmpty
+                          ? "O resultado para o número '${numberInputController.text}' é ${homeState.currentResult.length}.\nForam necessários ${homeState.currentResultTime} segundos para realizar o cálculo."
+                          : "Insira um número válido.",
+                      style: GoogleFonts.roboto(
+                        color: AppColors().voidColor,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height *
+                          (contentHeightMultiplier -
+                              contentHeaderHeightMultiplier) /
+                          1.5,
+                      child: ListView.builder(
+                          itemCount: homeState.currentResult.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Center(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                child: Text(
+                                  "${homeState.currentResult[index]}",
+                                  style: GoogleFonts.roboto(fontSize: 24)
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
                 ),
               );
             }),

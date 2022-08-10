@@ -12,12 +12,15 @@ abstract class _HomeStateBase with Store {
   List<int> currentResult = [];
 
   @observable
+  int currentResultTime = 0;
+
+  @observable
   List<List<int>> allResults = [];
 
   @action
   List<int> calculateNumber({required int number}) {
     List<int> result = [];
-    for(int i = 1; i < number; i++) {
+    for(int i = 2; i < number; i++) {
       if (i.divisibleNumbersCount() == (i+1).divisibleNumbersCount()) {
         result.add(i);
       }

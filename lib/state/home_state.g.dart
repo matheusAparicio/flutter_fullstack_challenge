@@ -25,6 +25,22 @@ mixin _$HomeState on _HomeStateBase, Store {
     });
   }
 
+  late final _$currentResultTimeAtom =
+      Atom(name: '_HomeStateBase.currentResultTime', context: context);
+
+  @override
+  int get currentResultTime {
+    _$currentResultTimeAtom.reportRead();
+    return super.currentResultTime;
+  }
+
+  @override
+  set currentResultTime(int value) {
+    _$currentResultTimeAtom.reportWrite(value, super.currentResultTime, () {
+      super.currentResultTime = value;
+    });
+  }
+
   late final _$allResultsAtom =
       Atom(name: '_HomeStateBase.allResults', context: context);
 
@@ -59,6 +75,7 @@ mixin _$HomeState on _HomeStateBase, Store {
   String toString() {
     return '''
 currentResult: ${currentResult},
+currentResultTime: ${currentResultTime},
 allResults: ${allResults}
     ''';
   }
